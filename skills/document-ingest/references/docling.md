@@ -6,30 +6,32 @@ tables, Markdown/HTML/text/JSON export, and unified document representation.
 
 ## Install
 
-Install into the target repo only:
+Use the central `.agents` uv dependency group:
 
 ```bash
-uv add docling
-uv run python -c "import docling; print('docling dep ok')"
+uv sync --group document-ingest-docling
+uv run --group document-ingest-docling python -c "import docling; print('docling dep ok')"
 ```
 
-Do not install Docling globally just because a reusable skill needs it.
+Do not install Docling globally just because a reusable skill needs it. Install
+it into the target repo only when the target repo's own code must import or run
+Docling.
 
 ## CLI
 
 Basic conversion:
 
 ```bash
-uv run docling path/to/input.pdf --output .cache/docling
+uv run --group document-ingest-docling docling path/to/input.pdf --output .cache/docling
 ```
 
 For text-based PDFs where OCR is unnecessary, prefer disabling OCR for speed:
 
 ```bash
-uv run docling path/to/input.pdf --no-ocr --output .cache/docling
+uv run --group document-ingest-docling docling path/to/input.pdf --no-ocr --output .cache/docling
 ```
 
-Use `uv run docling --help` in the target workspace before relying on a specific
+Use `uv run --group document-ingest-docling docling --help` before relying on a specific
 flag set, because Docling CLI options can change across releases.
 
 ## Python API

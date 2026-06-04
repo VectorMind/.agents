@@ -1,0 +1,43 @@
+[project]
+name = "agents-skills"
+version = "0.1.0"
+description = "Central registry for reusable agent skills and CLI-backed runtime tooling."
+requires-python = ">=3.11"
+dependencies = []
+
+[tool.uv]
+package = false
+default-groups = []
+
+[dependency-groups]
+document-ingest-light = [
+  "pypdf>=5.0.0",
+  "pymupdf>=1.24.0",
+  "pdfplumber>=0.11.0",
+  "python-docx>=1.1.0",
+]
+
+document-ingest-ocr = [
+  { include-group = "document-ingest-light" },
+  "pdf2image>=1.17.0",
+  "pillow>=11.0.0",
+  "pytesseract>=0.3.13",
+]
+
+document-ingest-docling = [
+  "docling",
+]
+
+tables-reports = [
+  "pandas>=2.2.0",
+  "openpyxl>=3.1.0",
+  "lxml>=5.0.0",
+  "rapidfuzz>=3.10.0",
+]
+
+cli-dev = [
+  "typer>=0.15.0",
+  "rich>=13.0.0",
+  "pytest>=8.3.0",
+  "ruff>=0.8.0",
+]

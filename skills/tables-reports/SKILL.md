@@ -1,24 +1,27 @@
 ---
 name: tables-reports
-description: Use when cleaning tabular data, parsing table-like HTML/XML, fuzzy matching labels or filenames, aggregating data, and producing CSV, Markdown, HTML, or Excel reports with repo-local uv dependencies.
+description: Use when cleaning tabular data, parsing table-like HTML/XML, fuzzy matching labels or filenames, aggregating data, and producing CSV, Markdown, HTML, or Excel reports with CLI-backed tooling from the central .agents uv environment.
 ---
 
 # Tables Reports
 
 ## Dependency Setup
 
-Install dependencies in the target workspace using the `tables-reports` profile
-from `uv-workspace-deps`:
+Use the central `.agents` uv dependency group for the runtime tooling:
 
 ```bash
-uv add "pandas>=2.2.0" "openpyxl>=3.1.0" "lxml>=5.0.0" "rapidfuzz>=3.10.0"
+uv sync --group tables-reports
 ```
 
-Verify from the target workspace:
+Verify from `.agents`:
 
 ```bash
-uv run python -c "import pandas, openpyxl, lxml, rapidfuzz; print('tables reports deps ok')"
+uv run --group tables-reports python -c "import pandas, openpyxl, lxml, rapidfuzz; print('tables reports deps ok')"
 ```
+
+Prefer a maintained CLI package as the long-term interface. Direct libraries in
+this group are a transitional backing for ad hoc tabular workflows until that
+CLI exists.
 
 ## Use Cases
 

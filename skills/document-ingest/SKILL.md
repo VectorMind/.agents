@@ -1,6 +1,6 @@
 ---
 name: document-ingest
-description: Use when extracting, converting, or auditing PDFs, DOCX files, scanned documents, images, HTML, or mixed document folders into text, Markdown, JSON, or table-friendly data. Uses staged lightweight/OCR/Docling escalation and installs dependencies only in the target repo's uv workspace.
+description: Use when extracting, converting, or auditing PDFs, DOCX files, scanned documents, images, HTML, or mixed document folders into text, Markdown, JSON, or table-friendly data. Uses staged lightweight/OCR/Docling escalation with CLI-backed tooling from the central .agents uv environment.
 ---
 
 # Document Ingest
@@ -10,8 +10,13 @@ description: Use when extracting, converting, or auditing PDFs, DOCX files, scan
 Start with the lightest extraction stage that can produce reliable output. Escalate
 only when evidence from the documents shows the current stage is insufficient.
 
-Install Python dependencies in the target workspace using the `uv-workspace-deps`
-profiles. Do not install document-processing dependencies globally or via `uvx`.
+Use document-processing tooling from the central `.agents` uv environment. Do
+not install document-processing dependencies globally or via `uvx`.
+
+Prefer first-class CLI packages as the runtime boundary. Direct libraries in the
+central dependency groups are a transitional backing until a maintained ingest
+CLI exists. Install dependencies into the target workspace only when the target
+workspace's own code must import or execute them.
 
 ## Stage 0: Inspect
 
@@ -27,7 +32,7 @@ profiles. Do not install document-processing dependencies globally or via `uvx`.
 
 Use this first for text-based PDFs and DOCX files.
 
-Dependency profile: `document-ingest-light`
+Dependency group: `document-ingest-light`
 
 Typical tools:
 
@@ -49,7 +54,7 @@ Quality checks:
 Use this only when PDFs or images are scanned, text is missing, or text extraction
 is clearly garbled.
 
-Dependency profile: `document-ingest-ocr`
+Dependency group: `document-ingest-ocr`
 
 System tools may also be needed: `pdftotext`, `pdfinfo`, `tesseract`, and OCR
 language packs. Ask before installing system packages.
@@ -68,7 +73,7 @@ Use Docling when the task needs stronger document understanding:
 - advanced conversion workflows where lightweight extraction loses too much
   structure.
 
-Dependency profile: `document-ingest-docling`
+Dependency group: `document-ingest-docling`
 
 Read `references/docling.md` before adding Docling or designing a Docling-based
 workflow. Treat it as a heavier dependency path because it may pull large
