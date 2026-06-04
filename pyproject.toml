@@ -7,7 +7,7 @@ dependencies = []
 
 [tool.uv]
 package = false
-default-groups = []
+default-groups = "all"
 
 [dependency-groups]
 document-ingest-light = [

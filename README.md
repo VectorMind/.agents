@@ -23,16 +23,23 @@ from being hidden inside agent-only folders.
 This repository owns a central `uv` project for skill runtime tooling. The
 central `.venv` is for CLIs and libraries used by skills as external tools.
 
-Use dependency groups to install only the tooling needed on a given machine:
+By default, `uv sync` installs all skill runtime dependency groups into the
+central `.venv`:
 
 ```bash
-uv sync --group document-ingest-light
-uv sync --group tables-reports
-uv sync --all-groups
+uv sync
 ```
 
-Because `default-groups` is empty, run commands from this environment with
-`uv run --group <group> ...`.
+Use explicit groups or exclusions when a machine should only hydrate part of the
+tooling:
+
+```bash
+uv sync --no-default-groups --group tables-reports
+uv sync --no-group document-ingest-docling
+```
+
+Run commands from this environment with `uv run ...`; use `--group <group>` when
+you want the command invocation to document which skill runtime it relies on.
 
 Install dependencies into a target repository only when that repository's own
 code must import or execute them. Skill runtime dependencies belong here when
